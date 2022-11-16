@@ -15,12 +15,6 @@ nav{
 canvas{
     border: 1px solid black;
     box-sizing:border-box;
-
-    text-decoration: wavy black;
-    
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
-    font-display: black;
 }
 a:link, a:visited{
     display:inline-block;

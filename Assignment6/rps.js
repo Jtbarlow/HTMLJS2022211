@@ -4,8 +4,14 @@ rps[0] = `Rock`
 rps[1] = `Paper`
 rps[2] = `Scissors`
 
-var canvas = document.getElementById 
+var canvas = document.getElementById("c")
 var ctx = canvas.getContext("2d")
+
+ctx.font = "40px Arial"
+ctx.fillStyle = "gray"
+ctx.strokeStyle = "black"
+ctx.fillText("Welcome to the RPS Game", 180, 280)
+ctx.strokeText("Welcome to the RPS Game", 180, 280)
 
 //Array of Buttons
 var btn = document.querySelectorAll(`a`)
@@ -29,28 +35,27 @@ btn[2].addEventListener(`click`, function(e){
 //Play function accepts an integer
 //generates an integer 0-2
 //Displays the player's choice and computer's choice
-function play(pChoice)
-{
-    var cChoice = Math.floor(Math.random()*2.999999)
-    
-    alert(rps[pChoice] + " " + rps[cChoice]) 
+function play(pChoice){
+    var cChoice = Math.floor(Math.random()*2.99)
+    console.log(cpuChoice, playerChoice);
+    fillText(rps[pChoice] + " " + rps[cChoice]) 
 
     switch(pChoice){
         case 0:
             if(cChoice === 0)
             {
                 //display a tie
-                alert(`You Tied`)
+                ctx.fillText(`You Tied`)
             }
             else if(cChoice === 1)
             {
                 //display a loss
-                alert(`You Lost`)
+                ctx.fillText(`You Lost`)
             }
             else
             {
                 //display a win
-                alert(`You Won`)
+                ctx.fillText(`You Won`)
             }
             break;
 
@@ -58,17 +63,17 @@ function play(pChoice)
                 if(cChoice === 0)
                 {
                     //display a tie
-                    alert(`You Win`)
+                    ctx.fillText(`You Win`)
                 }
                 else if(cChoice === 1)
                 {
                     //display a loss
-                    alert(`Tie`)
+                    ctx.fillText(`Tie`)
                 }
                 else
                 {
                     //display a win
-                    alert(`You Lost`)
+                    ctx.fillText(`You Lost`)
                 } 
             break;
 
@@ -76,17 +81,17 @@ function play(pChoice)
                 if(cChoice === 0)
                 {
                     //display a tie
-                    alert(`You Lost`)
+                    ctx.fillText(`You Lost`)
                 }
                 else if(cChoice === 1)
                 {
                     //display a loss
-                    alert(`You Win`)
+                    ctx.fillText(`You Win`)
                 }
                 else
                 {
                     //display a win
-                    alert(`You Tie`)
+                    ctx.fillText(`You Tie`)
                 }
              break;
     }
