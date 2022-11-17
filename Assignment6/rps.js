@@ -1,98 +1,86 @@
-//Array of words
-var rps = [];
-rps[0] = `Rock` 
-rps[1] = `Paper`
-rps[2] = `Scissors`
+//canvas drawing stuff
+var canvas = document.getElementById("c");
+var ctx = canvas.getContext("2d");
+var rps = ["rock", "paper", "scissors"];
 
-var canvas = document.getElementById("c")
-var ctx = canvas.getContext("2d")
+//console.log(rps[0]);
 
-ctx.font = "40px Arial"
-ctx.fillStyle = "gray"
-ctx.strokeStyle = "black"
-ctx.fillText("Welcome to the RPS Game", 180, 280)
-ctx.strokeText("Welcome to the RPS Game", 180, 280)
+document.getElementById("rock").addEventListener("click", function (e) {
+    ctx.clearRect(0,0,1000,600);
+    
+    playGame(rps[0]);
+});
 
-//Array of Buttons
-var btn = document.querySelectorAll(`a`)
-//Changes the words in the buttons
-btn[0].innerHTML = rps[0]
-btn[1].innerHTML = rps[1]
-btn[2].innerHTML = rps[2]
+document.getElementById("paper").addEventListener("click", function (e) {
+    ctx.clearRect(0,0,1000,600);
+    playGame(rps[1]);
+});
 
-//Makes the buttons clickable.
-//Once clicked they call the play function
-btn[0].addEventListener(`click`, function(e){
-    play(0)
-})
-btn[1].addEventListener(`click`, function(e){
-    play(1)
-})
-btn[2].addEventListener(`click`, function(e){
-    play(2)
-})
+document.getElementById("scissors").addEventListener("click", function (e) {
+    ctx.clearRect(0,0,1000,600);
+    playGame(rps[2]);
+});
 
-//Play function accepts an integer
-//generates an integer 0-2
-//Displays the player's choice and computer's choice
-function play(pChoice){
-    var cChoice = Math.floor(Math.random()*2.99)
+function playGame(playerChoice) {
+    var cpuChoice = Math.floor(Math.random() * 2.99);
     console.log(cpuChoice, playerChoice);
-    fillText(rps[pChoice] + " " + rps[cChoice]) 
 
-    switch(pChoice){
-        case 0:
-            if(cChoice === 0)
-            {
-                //display a tie
-                ctx.fillText(`You Tied`)
+    switch (playerChoice) {
+        case "rock":
+            if (cpuChoice == 0) {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose rock, it's a tie", 400,200);
+
             }
-            else if(cChoice === 1)
-            {
-                //display a loss
-                ctx.fillText(`You Lost`)
+            else if (cpuChoice == 1) {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose paper, you lose", 400,200);
+                
             }
-            else
-            {
-                //display a win
-                ctx.fillText(`You Won`)
+            else {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose scissors, you win", 400,200);
             }
+
             break;
+        case "paper":
+            if (cpuChoice == 0) {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose rock, you win", 400,200);
+            }
+            else if (cpuChoice == 1) {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose paper, it's a tie", 400,200);
+            }
+            else {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose scissors, you lose", 400,200);
+            }
 
-            case 1:
-                if(cChoice === 0)
-                {
-                    //display a tie
-                    ctx.fillText(`You Win`)
-                }
-                else if(cChoice === 1)
-                {
-                    //display a loss
-                    ctx.fillText(`Tie`)
-                }
-                else
-                {
-                    //display a win
-                    ctx.fillText(`You Lost`)
-                } 
             break;
+        case "scissors":
+            if (cpuChoice == 0) {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose rock, you lose", 400,200);
+            }
+            else if (cpuChoice == 1) {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose paper, you win", 400,200);
+            }
+            else {
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "blue";
+                ctx.fillText("CPU chose scissors, it's a tie", 400,200);
+            }
 
-            case 2:
-                if(cChoice === 0)
-                {
-                    //display a tie
-                    ctx.fillText(`You Lost`)
-                }
-                else if(cChoice === 1)
-                {
-                    //display a loss
-                    ctx.fillText(`You Win`)
-                }
-                else
-                {
-                    //display a win
-                    ctx.fillText(`You Tie`)
-                }
-             break;
+            break;
     }
 }
