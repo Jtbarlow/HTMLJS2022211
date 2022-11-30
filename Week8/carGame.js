@@ -7,6 +7,7 @@ var start = 50
 var finish = 750
 var carPos = 2
 var speed = 3
+var carWidth = 100
 
 var startFuel = randomNumber(canvas.width, 600)
 var fuel = startFuel
@@ -16,6 +17,14 @@ var gameOver = true
 var seconds = 3
 var fps = 60 
 var frames = fps
+
+//load game sprites
+var carSprite = new Image()
+carSprite.src = "images/Sol_RiotStamp.png"
+
+carSprite.onload = function(){
+    main()
+}
 
 //add some event listeners
 document.addEventListener("keydown", keyPressDown)
@@ -52,7 +61,7 @@ function main(){
         drawCar()
     
         drawFuelBar()
-        if(carPos + 40> finish || fuel<= 0){
+        if(carPos + carWidth> finish || fuel<= 0){
             drawResults()
         }
     }
@@ -70,8 +79,9 @@ function drawStartFinish(){
 
 function drawCar(){
         //draw a car
-        ctx.fillStyle = "red"
-        ctx.fillRect(carPos,canvas.height/2, 40, 20)
+        // ctx.fillStyle = "red"
+        // ctx.fillRect(carPos,canvas.height/2, 40, 20)
+        ctx.drawImage(carSprite, carPos, canvas.height/2, carWidth, 100)
 }
 
 function drawFuelBar(){
@@ -86,7 +96,7 @@ function drawFuelBar(){
     }
 }
 function drawResults(){
-    if(carPos + 40 > finish){
+    if(carPos + carWidth > finish){
         ctx.fillStyle = "black"
         ctx.font = "25px Arial"
         ctx.textAlign = "center"

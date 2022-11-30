@@ -6,6 +6,7 @@ var attack = new Image()
 var special = new Image()
 var grab = new Image()
 
+
 attack.src = "images/attack.png"
 special.src = "images/special.png"
 grab.src = "images/grab.png"
@@ -50,14 +51,14 @@ ctx.strokeText("Welcome to the RPS Game", canvas.width/2, 280)
         ctx.textAlign = "center"
         ctx.fillStyle = "pink"
         ctx.fillText("Player Choice", canvas.width/2, 100)
-        ctx.drawImage(rock, canvas.width/2 - rock.width/2 - 100, 150)
-        ctx.drawImage(paper, canvas.width/2 - paper.width/2, 150)
-        ctx.drawImage(scissors, canvas.width/2 - scissors.width/2 + 100, 150)
+        ctx.drawImage(attack, canvas.width/2 - attack.width/2 - 100, 150)
+        ctx.drawImage(special, canvas.width/2 - special.width/2, 150)
+        ctx.drawImage(grab, canvas.width/2 - grab.width/2 + 100, 150)
 
         ctx.fillText("Computer Choice", canvas.width/2, 325)
-        ctx.drawImage(crock, canvas.width/2 - crock.width/2 - 100, 375)
-        ctx.drawImage(cpaper, canvas.width/2 - cpaper.width/2, 375)
-        ctx.drawImage(cscissors, canvas.width/2 - cscissors.width/2 + 100, 375)
+        ctx.drawImage(cattack, canvas.width/2 - cattack.width/2 - 100, 375)
+        ctx.drawImage(cspecial, canvas.width/2 - cspecial.width/2, 375)
+        ctx.drawImage(cgrab, canvas.width/2 - cgrab.width/2 + 100, 375)
 
         ctx.fillText(results, canvas.width/2, 525)
         ctx.restore()
