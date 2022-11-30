@@ -5,14 +5,19 @@ var ctx = canvas.getContext("2d")
 var attack = new Image()
 var special = new Image()
 var grab = new Image()
-
+var hattack = new Image()
+var hspecial = new Image()
+var hgrab = new Image()
 
 attack.src = "images/attack.png"
 special.src = "images/special.png"
 grab.src = "images/grab.png"
+hattack.src = "images/hattack.png"
+hspecial.src = "images/hspecial.png"
+hgrab.src = "images/hgrab.png"
 
 attack.onload = function(){
-    draw(attack,special,grab,attack,special,grab)
+    draw(attack,special,grab,hattack,hspecial,hgrab)
 }
 
 
@@ -37,8 +42,8 @@ function draw(attack, special, grab, cattack, cspecial, cgrab){
     if(gameOver == true){
         //Drawing the Fonts
 ctx.font = "40px Arial"
-ctx.fillStyle = "green"
-ctx.strokeStyle = "black"
+ctx.fillStyle = "red"
+ctx.strokeStyle = "red"
 ctx.textAlign = "center"
 ctx.fillText("Welcome to the RPS Game", canvas.width/2, 280)
 ctx.fillText("Press space to Start", canvas.width/2, 320)
@@ -49,18 +54,18 @@ ctx.strokeText("Welcome to the RPS Game", canvas.width/2, 280)
         ctx.clearRect(0,0, canvas.width, canvas.height)
         ctx.font = "30px Arial"
         ctx.textAlign = "center"
-        ctx.fillStyle = "pink"
-        ctx.fillText("Player Choice", canvas.width/2, 100)
-        ctx.drawImage(attack, canvas.width/2 - attack.width/2 - 100, 150)
-        ctx.drawImage(special, canvas.width/2 - special.width/2, 150)
-        ctx.drawImage(grab, canvas.width/2 - grab.width/2 + 100, 150)
+        ctx.fillStyle = "red"
+        ctx.fillText("Player Choice", canvas.width/2, 50)
+        ctx.drawImage(attack, canvas.width/2 - attack.width/2 - 200, 100)
+        ctx.drawImage(special, canvas.width/2 - special.width/2, 75)
+        ctx.drawImage(grab, canvas.width/2 - grab.width/2 + 200, 75)
 
-        ctx.fillText("Computer Choice", canvas.width/2, 325)
-        ctx.drawImage(cattack, canvas.width/2 - cattack.width/2 - 100, 375)
-        ctx.drawImage(cspecial, canvas.width/2 - cspecial.width/2, 375)
-        ctx.drawImage(cgrab, canvas.width/2 - cgrab.width/2 + 100, 375)
+        ctx.fillText("Computer Choice", canvas.width/2, 320)
+        ctx.drawImage(cattack, canvas.width/2 - cattack.width/2 - 200, 350)
+        ctx.drawImage(cspecial, canvas.width/2 - cspecial.width/2, 325)
+        ctx.drawImage(cgrab, canvas.width/2 - cgrab.width/2 + 200, 325)
 
-        ctx.fillText(results, canvas.width/2, 525)
+        ctx.fillText(results, canvas.width/2, 575)
         ctx.restore()
     }
 }
@@ -97,18 +102,18 @@ function playGame(playerChoice){
                     //rock
                     //alert("CPU chose Rock, It's a tie.");
                     results = "CPU chose attack, It's a tie."
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(hattack, special, grab, hattack, special, grab)
                 }
                 else if(cpuChoice == 1){
                     //paper
                     //alert("CPU chose Paper, You Lose.")
                     results = "CPU chose special, You Lose."
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(hattack, special, grab, attack, hspecial, grab)
                 }
                 else{
                     //alert("CPU chose Scissors, You Win")
                     results = "CPU chose grab, You Win"
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(hattack, special, grab, attack, special, hgrab)
                 }
                 break;
             
@@ -117,18 +122,18 @@ function playGame(playerChoice){
                     //rock
                     //alert();
                     results = "CPU chose attack, You Win."
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(attack, hspecial, grab, hattack, special, grab)
                 }
                 else if(cpuChoice == 1){
                     //paper
                     //alert()
                     results = "CPU chose special, It's a tie."
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(attack, hspecial, grab, attack, hspecial, grab)
                 }
                 else {
                     //alert()
                     results = "CPU chose grab, You Lose"
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(attack, hspecial, grab, attack, special, hgrab)
                 }
                 break;
             
@@ -137,18 +142,18 @@ function playGame(playerChoice){
                     //rock
                     //alert();
                     results = "CPU chose attack, You Lose."
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(attack, special, hgrab, hattack, special, grab)
                 }
                 else if(cpuChoice == 1){
                     //paper
                     //alert()
                     results = "CPU chose special, You Win."
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(attack, special, hgrab, attack, hspecial, grab)
                 }
                 else{
                     //alert()
                     results = "CPU chose grab, It's a tie"
-                    draw(attack, special, grab, attack, special, grab)
+                    draw(attack, special, hgrab, attack, special, hgrab)
                 }
                 break;
             }
