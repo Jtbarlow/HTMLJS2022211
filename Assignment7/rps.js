@@ -45,9 +45,9 @@ ctx.font = "40px Arial"
 ctx.fillStyle = "red"
 ctx.strokeStyle = "red"
 ctx.textAlign = "center"
-ctx.fillText("Welcome to the RPS Game", canvas.width/2, 280)
+ctx.fillText("Welcome to the Average Sol Ditto", canvas.width/2, 280)
 ctx.fillText("Press space to Start", canvas.width/2, 320)
-ctx.strokeText("Welcome to the RPS Game", canvas.width/2, 280)
+ctx.strokeText("Welcome to the Average Sol Ditto", canvas.width/2, 280)
     }
     else{
         ctx.save()
