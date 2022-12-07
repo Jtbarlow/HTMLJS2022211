@@ -3,15 +3,15 @@ var ctx = canvas.getContext("2d")
 
 var timer = requestAnimationFrame(main)
 
-var start = 50
-var finish = 750
+var start = 58
+var finish = 956
 var carPos = 2
 var speed = 3
-var carWidth = 100
+var carWidth = 55
 
 var startFuel = randomNumber(canvas.width, 600)
 var fuel = startFuel
-var fuelBarWidth = 300
+var fuelBarWidth = 512
 var gameOver = true
 
 var seconds = 3
@@ -21,11 +21,15 @@ var frames = fps
 //load game sprites
 var carSprite = new Image()
 carSprite.src = "images/Sol_RiotStamp.png"
+var lineArt = new Image()
+lineArt.src = "images/Ky_Standing.png"
 
 carSprite.onload = function(){
     main()
 }
-
+lineArt.onload = function(){
+    main()
+}
 //add some event listeners
 document.addEventListener("keydown", keyPressDown)
 
@@ -59,7 +63,7 @@ function main(){
         }
         drawStartFinish()
         drawCar()
-    
+        drawlineArt()
         drawFuelBar()
         if(carPos + carWidth> finish || fuel<= 0){
             drawResults()
@@ -72,9 +76,9 @@ function main(){
 function drawStartFinish(){
     ctx.fillStyle = "black"
     //start line
-    ctx.fillRect(start, 50, 10, 500)
+    ctx.fillRect(start, 50, 10, 700)
     //finish line
-    ctx.fillRect(finish, 50, 10, 500)
+    ctx.drawImage(lineArt, 50, 10, 700)
 }
 
 function drawCar(){
