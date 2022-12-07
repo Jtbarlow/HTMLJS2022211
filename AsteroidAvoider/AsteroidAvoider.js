@@ -1,9 +1,11 @@
 var canvas = document.getElementById("canvas")
 var ctx = canvas.getContext("2d")
 var timer = requestAnimationFrame(main)
-var gameOver = false
+var gameOver = true
 var score = 0
 var highScore = 0
+var currentState = 0
+var gameState = []
 //asteroid variables
 var numAsteroids = 20
 var asteroids = []
@@ -28,6 +30,29 @@ function pressKeyDown(e) {
         }
         if (e.keyCode == 83) {//code for down s
             ship.down = true
+        }
+    }
+    //menu inputs use spacebar
+    if(gameOver){
+        if(e.keyCode == 32){
+            if(currentState == 2){
+                //gameover inputs
+                currentState = 0
+                numAsteroids = 20
+                asteroids = []
+                score = 0
+                //start game here
+                main()
+                gameStart()
+            }else{
+                //main menu inputs
+                gameStart()
+                currentState = 1
+                gameOver = false
+                main()
+                scoreTimer()
+            }
+
         }
     }
 }
@@ -82,10 +107,32 @@ function PlayerShip() {
     this.right = false
     this.vx = 0
     this.vy = 0
+    this.flameLength = 30
 
     this.drawShip = function () {
         ctx.save()
         ctx.translate(this.x, this.y)
+
+        //draw the thruster
+        if(this.up || this.left || this.right){
+            ctx.save()
+            if(this.flameLength == 30){
+                this.flameLength = 20
+                ctx.fillStyle = "yellow"
+            }else{
+                this.flameLength = 30
+                ctx.fillStyle = "orange"
+            }
+            //draw the flame
+            ctx.beginPath()
+            ctx.moveTo(0, this.flameLength)
+            ctx.lineTo(5, 5)
+            ctx.lineTo(-5, 5)
+            ctx.moveTo(0, this.flameLength)
+            ctx.closePath()
+            ctx.fill()
+            ctx.restore()
+        }
 
         //draw the ship
         ctx.fillStyle = "red"
@@ -128,74 +175,131 @@ function PlayerShip() {
     }
 }
 
-//for loop to instantiate asteroids for game
-for (var i = 0; i < numAsteroids; i++) {
-    asteroids[i] = new Asteroid()
-}
-
 function main() {
     //clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    //draw score to screen
-    ctx.save()
-    ctx.font = "15px Arial"
-    ctx.fillStyle = "white"
-    ctx.fillText("Score: " + score.toString(), canvas.width - 150, 30)
-    ctx.restore()
-    //vertical movement
-    if (ship.up) {
-        ship.vy = -10
-    } else {
-        ship.vy = 3
-    }
-    //horizontal movement
-    if (ship.left) {
-        ship.vx = -10
-    } else if (ship.right) {
-        ship.vx = 10
-    } else {
-        ship.vx = 0
-    }
-
-    for (var i = 0; i < asteroids.length; i++) {
-        var dX = ship.x - asteroids[i].x
-        var dY = ship.y - asteroids[i].y
-        var distance = Math.sqrt((dX * dX) + (dY * dY))
-
-        if (detectCollision(distance, (ship.height / 2 + asteroids[i].radius))) {
-            //console.log("Hit Asteroid")
-            //alert("hit asteroid")
-            gameOver = true
-        }
-
-
-        if (asteroids[i].y > canvas.height + asteroids[i].radius) {
-            asteroids[i].y = randomRange(canvas.height - asteroids[i].radius, asteroids[i].radius) - canvas.height
-            asteroids[i].x = randomRange(canvas.width - asteroids[i].radius, asteroids[i].radius)
-        }
-        asteroids[i].y += asteroids[i].vy
-        asteroids[i].drawAsteroid()
-
-    }
-
-    //draw the ship
-    ship.moveShip()
-    ship.drawShip()
-
+    gameState[currentState]()
     if (!gameOver) {
         //refresh the screen
         timer = requestAnimationFrame(main)
     }
 
-    while(asteroids.length < numAsteroids){
+
+}
+//game state machine
+
+//main menu state
+gameState[0] = function(){
+    //code for main menu
+    ctx.save()
+    ctx.font = "30px Arial"
+    ctx.fillStyle = "white"
+    ctx.textAlign = "center"
+    ctx.fillText("Asteroid Avoider", canvas.width/2, canvas.height/2 - 30)
+    ctx.font = "15px Arial"
+    ctx.fillText("Press Space to Start", canvas.width/2, canvas.height/2 + 20)
+    ctx.restore()
+}
+//gameplay state
+gameState[1] = function(){
+//code for the game
+ //draw score to screen
+ ctx.save()
+ ctx.font = "15px Arial"
+ ctx.fillStyle = "white"
+ ctx.fillText("Score: " + score.toString(), canvas.width - 150, 30)
+ ctx.restore()
+ //vertical movement
+ if (ship.up) {
+     ship.vy = -10
+ } else {
+     ship.vy = 3
+ }
+ //horizontal movement
+ if (ship.left) {
+     ship.vx = -10
+ } else if (ship.right) {
+     ship.vx = 10
+ } else {
+     ship.vx = 0
+ }
+
+ for (var i = 0; i < asteroids.length; i++) {
+     var dX = ship.x - asteroids[i].x
+     var dY = ship.y - asteroids[i].y
+     var distance = Math.sqrt((dX * dX) + (dY * dY))
+    //collision detection here
+     if (detectCollision(distance, (ship.height / 2 + asteroids[i].radius))) {
+         //console.log("Hit Asteroid")
+         //alert("hit asteroid")
+         gameOver = true
+         currentState = 2
+         main()
+         return
+     }
+
+
+     if (asteroids[i].y > canvas.height + asteroids[i].radius) {
+         asteroids[i].y = randomRange(canvas.height - asteroids[i].radius, asteroids[i].radius) - canvas.height
+         asteroids[i].x = randomRange(canvas.width - asteroids[i].radius, asteroids[i].radius)
+     }
+     asteroids[i].y += asteroids[i].vy
+     asteroids[i].drawAsteroid()
+
+     //adds asteroids to game as time goes on
+     while(asteroids.length < numAsteroids){
         asteroids.push(new Asteroid())
+    }
+
+ }
+
+ //draw the ship
+ ship.moveShip()
+ ship.drawShip()
+}
+
+
+
+//game over state
+gameState[2] = function(){
+    if(score > highScore){
+        highScore = score
+        
+        ctx.save()
+        ctx.font = "30px Arial"
+        ctx.fillStyle = "white"
+        ctx.textAlign = "center"
+        ctx.fillText("Game Over, Your Score was: " + score.toString(), canvas.width/2, canvas.height/2 - 60)
+        ctx.fillText("Your New Highscore is: " + highScore.toString(), canvas.width/2, canvas.height/2 - 30)
+        ctx.fillText("New Record!", canvas.width/2, canvas.height/2)
+        ctx.font = "15px Arial"
+        ctx.fillText("Press Space to Play Again ", canvas.width/2, canvas.height/2 + 20)
+        ctx.restore()
+    }else{
+            //code for game over
+        ctx.save()
+        ctx.font = "30px Arial"
+        ctx.fillStyle = "white"
+        ctx.textAlign = "center"
+        ctx.fillText("Game Over, Your Score was: " + score.toString(), canvas.width/2, canvas.height/2 - 60)
+        ctx.fillText("Your Highscore is: " + highScore.toString(), canvas.width/2, canvas.height/2 - 30)
+        ctx.font = "15px Arial"
+        ctx.fillText("Press Space to Play Again ", canvas.width/2, canvas.height/2 + 20)
+        ctx.restore()
     }
 
 }
 
 //Utility functions
+function gameStart(){
+    //for loop to instantiate asteroids for game
+for (var i = 0; i < numAsteroids; i++) {
+    asteroids[i] = new Asteroid()
+    }
 
+    ship = new PlayerShip()
+}
 function randomRange(high, low) {
     return Math.random() * (high - low) + low
 }
@@ -216,6 +320,3 @@ function scoreTimer(){
         setTimeout(scoreTimer, 1000)
     }
 }
-
-//temp call score func
-scoreTimer()
