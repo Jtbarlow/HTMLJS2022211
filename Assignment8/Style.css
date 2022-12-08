@@ -1,0 +1,11 @@
+canvas{
+    border: 1px solid black;
+    background-image: url(images/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+html, body{
+    background-color: black;
+    display: flex;
+    justify-content: center
+}
