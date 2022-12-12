@@ -1,0 +1,18 @@
+html,body{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+#canvas{
+    border: 1px solid white;
+    background-color: black;
+}
+html{
+    background-image: url(images/space_background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#container{
+    border: 1px solid white;
+    background-color: aquamarine;
+}
