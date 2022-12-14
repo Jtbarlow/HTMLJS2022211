@@ -1,3 +1,5 @@
+//Adjust ship location and text color
+
 var canvas = document.getElementById("canvas")
 var ctx = canvas.getContext('2d')
 var timer = requestAnimationFrame(main)
@@ -16,6 +18,10 @@ var shipMove = new Image()
 shipMove.src = "images/spaceship_move.png"
 var asteroidSprite = new Image()
 asteroidSprite.src = "images/asteroid.png"
+var AASS = new Image()
+AASS.src = "images/AASS.png"
+var AAGOS = new Image()
+AAGOS.src = "images/AAGOS.png"
 
 //utility functions
 function randomRange(high, low){
@@ -38,17 +44,17 @@ function Asteroid(){
     this.x = randomRange(canvas.width - this.radius, this.radius)
     this.y = randomRange(canvas.height - this.radius, this.radius) - canvas.height
     this.vy = randomRange(10, 5)
-    this.color = "white"
+    //this.color = "white"
 
     this.drawAsteroid = function(){
         ctx.save()
         ctx.beginPath()
-        ctx.fillStyle = this.color
+        //ctx.fillStyle = this.color
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, true)
         ctx.closePath()
         ctx.fill()
+        ctx.drawImage(asteroidSprite, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2)
         ctx.restore()
-
     }
 
 }
@@ -80,7 +86,7 @@ function pressKeyDown(e){
         //checking for spacebar
         if(e.keyCode == 32){
             if(currentState == 2){
-                //game over screen reatarts game
+                //game over screen restarts game
                 currentState = 0
                 //resets number of asteroids
                 numAsteroids = 20
@@ -129,8 +135,8 @@ function pressKeyUp(e){
 function PlayerShip(){
     this.x = canvas.width/2
     this.y = canvas.height/2
-    this.w = 20
-    this.h = 20
+    this.w = 40
+    this.h = 40
     this.vx = 0
     this.vy = 0
     this.up = false
@@ -142,7 +148,7 @@ function PlayerShip(){
     this.drawShip = function(){
        ctx.save()
         ctx.translate(this.x, this.y)
-        if(this.up || this.left || this.right){
+        if(this.up || this.left || this.right || this.down){
             ctx.save()
             //Changes the drawing values to animate the flame
               if(this.flamelength == 30){
@@ -160,11 +166,12 @@ function PlayerShip(){
               ctx.lineTo(0,this.flamelength)
               ctx.closePath()
               ctx.fill()
+              ctx.drawImage(shipMove, 0, 0, this.w, this.h)
               ctx.restore()
           }
       
         ctx.fillStyle = "red"
-        ctx.drawImage(shipIdle, 0, 0)
+        
         ctx.beginPath()
         ctx.moveTo(0, -10)
         ctx.lineTo(10, 10)
@@ -172,6 +179,7 @@ function PlayerShip(){
         ctx.lineTo(0, -10)
         ctx.closePath()
         ctx.fill();
+        ctx.drawImage(shipIdle, 0, 0, this.w, this.h)
         ctx.restore() 
     }
 
@@ -212,7 +220,8 @@ gameStates[0] = function(){
     ctx.textAlign = "center"
     ctx.fillText("Asteroid Avoider", canvas.width/2, canvas.height/2-30)
     ctx.font = "15px Arial"
-    ctx.fillText("Press Space to Start", canvas.width/2, canvas.height/2 + 20)
+    ctx.drawImage(AASS,0,0)
+    //ctx.fillText("Press Space to Start", canvas.width/2, canvas.height/2 + 20)
     ctx.restore()
 
 }
@@ -229,8 +238,10 @@ gameStates[1] = function(){
     //Vertical 
     if(ship.up){
         ship.vy = -10
+    }else if(ship.down){
+        ship.vy = 5
     }else{
-        ship.vy = 3
+        ship.vy = 0
     }
     
     //Horizontal Movement
@@ -253,7 +264,6 @@ gameStates[1] = function(){
             gameOver = true
             currentState = 2
             main()
-            
         }
 
 
@@ -278,12 +288,13 @@ gameStates[1] = function(){
 
 //Game Over
 gameStates[2] = function(){
+    ctx.drawImage(AAGOS,0,0, canvas.width, canvas.height)
     if(score > highScore){
         //set a new high score
         highScore = score
         ctx.save()
         ctx.font = "30px Arial"
-        ctx.fillStyle = "white"
+        ctx.fillStyle = "red"
         ctx.textAlign = "center"
         ctx.fillText("Game Over, your high score score was: " + score.toString() , canvas.width/2, canvas.height/2-60)
         ctx.fillText("Your new high score is: " + highScore.toString() , canvas.width/2, canvas.height/2-30)
@@ -291,18 +302,20 @@ gameStates[2] = function(){
         ctx.font = "15px Arial"
         ctx.fillText("Press Space to Play Again", canvas.width/2, canvas.height/2 + 20)
         ctx.restore()
+        //drawImage(AAGOS)
 
     }else{
         //keep same score new high score
         ctx.save()
         ctx.font = "30px Arial"
-        ctx.fillStyle = "white"
+        ctx.fillStyle = "red"
         ctx.textAlign = "center"
         ctx.fillText("Game Over, your score was: " + score.toString() , canvas.width/2, canvas.height/2-60)
         ctx.fillText("Your high score is: " + highScore.toString() , canvas.width/2, canvas.height/2-30)
         ctx.font = "15px Arial"
         ctx.fillText("Press Space to Play Again", canvas.width/2, canvas.height/2 + 20)
         ctx.restore()
+        //drawImage(AAGOS)
     }
     
    
