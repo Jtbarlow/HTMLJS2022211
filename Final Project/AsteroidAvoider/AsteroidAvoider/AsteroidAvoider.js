@@ -150,14 +150,15 @@ function PlayerShip(){
         ctx.translate(this.x, this.y)
         if(this.up || this.left || this.right || this.down){
             ctx.save()
+            ctx.drawImage(shipMove, 0,0)
             //Changes the drawing values to animate the flame
-              if(this.flamelength == 30){
-                  this.flamelength = 20
-                  ctx.fillStyle = "yellow"
-              }else{
+               if(this.flamelength == 30){
+                   this.flamelength = 20
+                   ctx.fillStyle = "yellow"
+               }else{
             
-                  this.flamelength = 30
-                  ctx.fillStyle = "orange"
+                this.flamelength = 30
+                ctx.fillStyle = "orange"
               }
               ctx.beginPath()
               ctx.moveTo(0, this.flamelength)
@@ -345,7 +346,7 @@ function scoreTimer(){
         //using modulus  that returns remainder of a decimal
         //checks to see if remainder is divisble by 5
         if(score % 5 == 0){
-            numAsteroids += 5
+            numAsteroids += 8
             console.log(numAsteroids)
         }
 
