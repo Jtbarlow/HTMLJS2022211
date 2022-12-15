@@ -1,5 +1,3 @@
-//Adjust ship location and text color
-
 var canvas = document.getElementById("canvas")
 var ctx = canvas.getContext('2d')
 var timer = requestAnimationFrame(main)
@@ -135,8 +133,8 @@ function pressKeyUp(e){
 function PlayerShip(){
     this.x = canvas.width/2
     this.y = canvas.height/2
-    this.w = 40
-    this.h = 40
+    this.w = 35
+    this.h = 35
     this.vx = 0
     this.vy = 0
     this.up = false
@@ -150,7 +148,7 @@ function PlayerShip(){
         ctx.translate(this.x, this.y)
         if(this.up || this.left || this.right || this.down){
             ctx.save()
-            ctx.drawImage(shipMove, 0,0)
+            //ctx.drawImage(shipMove, 0,0)
             //Changes the drawing values to animate the flame
                if(this.flamelength == 30){
                    this.flamelength = 20
@@ -160,27 +158,27 @@ function PlayerShip(){
                 this.flamelength = 30
                 ctx.fillStyle = "orange"
               }
-              ctx.beginPath()
-              ctx.moveTo(0, this.flamelength)
-              ctx.lineTo(5,5)
-              ctx.lineTo(-5,5)
-              ctx.lineTo(0,this.flamelength)
-              ctx.closePath()
-              ctx.fill()
-              ctx.drawImage(shipMove, 0, 0, this.w, this.h)
+            //   ctx.beginPath()
+            //   ctx.moveTo(0, this.flamelength)
+            //   ctx.lineTo(5,5)
+            //   ctx.lineTo(-5,5)
+            //   ctx.lineTo(0,this.flamelength)
+            //   ctx.closePath()
+            //   ctx.fill()
+              ctx.drawImage(shipMove, -20, -10, this.w, this.h)
               ctx.restore()
           }
       
-        ctx.fillStyle = "red"
+        // ctx.fillStyle = "red"
         
-        ctx.beginPath()
-        ctx.moveTo(0, -10)
-        ctx.lineTo(10, 10)
-        ctx.lineTo(-10, 10)
-        ctx.lineTo(0, -10)
-        ctx.closePath()
-        ctx.fill();
-        ctx.drawImage(shipIdle, 0, 0, this.w, this.h)
+        // ctx.beginPath()
+        // ctx.moveTo(0, -10)
+        // ctx.lineTo(10, 10)
+        // ctx.lineTo(-10, 10)
+        // ctx.lineTo(0, -10)
+        // ctx.closePath()
+        // ctx.fill();
+        ctx.drawImage(shipIdle, -20, -10, this.w, this.h)
         ctx.restore() 
     }
 
@@ -221,8 +219,8 @@ gameStates[0] = function(){
     ctx.textAlign = "center"
     ctx.fillText("Asteroid Avoider", canvas.width/2, canvas.height/2-30)
     ctx.font = "15px Arial"
+    ctx.fillText("Press Space to Start", canvas.width/2, canvas.height/2 + 20)
     ctx.drawImage(AASS,0,0)
-    //ctx.fillText("Press Space to Start", canvas.width/2, canvas.height/2 + 20)
     ctx.restore()
 
 }
@@ -295,7 +293,7 @@ gameStates[2] = function(){
         highScore = score
         ctx.save()
         ctx.font = "30px Arial"
-        ctx.fillStyle = "red"
+        ctx.fillStyle = "DarkCyan"
         ctx.textAlign = "center"
         ctx.fillText("Game Over, your high score score was: " + score.toString() , canvas.width/2, canvas.height/2-60)
         ctx.fillText("Your new high score is: " + highScore.toString() , canvas.width/2, canvas.height/2-30)
